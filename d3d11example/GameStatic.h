@@ -43,6 +43,9 @@ public:
 	XMMATRIX GetViewMat();
 	void SetProjMat(XMMATRIX& _proj);
 	XMMATRIX GetProjMat();
+	
+	void SetFeatureLevel(D3D_FEATURE_LEVEL _level);
+	D3D_FEATURE_LEVEL GetFeatureLevel();
 
 private:
 	ID3D11Device* m_device;
@@ -52,9 +55,11 @@ private:
 
 	XMMATRIX m_view;
 	XMMATRIX m_proj;
+
+	D3D_FEATURE_LEVEL m_featureLevel;
 };
 #define gameStatic CGameStatic::GetInstance()
-
+#define getFeatureLevel CGameStatic::GetInstance().GetFeatureLevel()
 
 class gameObject
 {

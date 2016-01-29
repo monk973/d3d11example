@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="trianglePixelShader.hlsl" />
-    <FxCompile Include="..\..\..\..\..\Desktop\d3d11CodeSet1\Chapter 6 Drawing in Direct3D\Box\FX\color.fx" />
     <FxCompile Include="triangleVertexShader.hlsl" />
   </ItemGroup>
 </Project>

@@ -40,6 +40,9 @@ void Renderer::CreateDevice(HWND _hWnd)
 	RECT rc;
 	GetClientRect(_hWnd, &rc);
 
+	gameStatic.SetFeatureLevel(m_featureLevel);
+	
+
 
 	DXGI_SWAP_CHAIN_DESC sd = {};
 

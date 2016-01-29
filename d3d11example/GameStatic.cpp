@@ -64,6 +64,16 @@ XMMATRIX CGameStatic::GetProjMat()
 	return m_proj;
 }
 
+void CGameStatic::SetFeatureLevel(D3D_FEATURE_LEVEL _level)
+{
+	m_featureLevel = _level;
+}
+
+D3D_FEATURE_LEVEL CGameStatic::GetFeatureLevel()
+{
+	return m_featureLevel;
+}
+
 gameObject::~gameObject()
 {
 
