@@ -77,8 +77,8 @@ void gameObject::CreateShaderAndConstantBuffer(const char * _vsDir, const char *
 	ifstream psFile(_psDir, ios::binary);
 	vector<char> psData = { istreambuf_iterator<char>(psFile),istreambuf_iterator<char>() };
 
-	gameStatic.getDevice()->CreateVertexShader(vsData.data(), vsData.size(), 0, &m_vs);
-	gameStatic.getDevice()->CreatePixelShader(psData.data(), psData.size(), 0, &m_ps);
+	HRESULT hr= gameStatic.getDevice()->CreateVertexShader(vsData.data(), vsData.size(), 0, &m_vs);
+	HRESULT hr2 = gameStatic.getDevice()->CreatePixelShader(psData.data(), psData.size(), 0, &m_ps);
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },

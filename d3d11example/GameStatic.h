@@ -12,7 +12,6 @@ using namespace std;
 #include "VertexMatrixTypes.h"
 #include "gameCamera.h"
 #include <math.h>
-#include <d3dcompiler.h>
 
 //ADD CLASS OR STRUCTS HERE.
 class CGameStatic
@@ -71,7 +70,6 @@ protected:
 	void SetWorldViewProj(XMMATRIX& _w, XMMATRIX& _v, XMMATRIX& _p);
 
 protected:
-
 	ID3D11Buffer* m_VB = 0;
 	ID3D11Buffer* m_IB = 0;
 

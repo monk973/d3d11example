@@ -6,14 +6,15 @@
 Renderer::Renderer(HWND _hWnd)
 {
 	CreateDevice(_hWnd);
-	CreateRenderTargetView();
-
 	gameStatic.SetDevice(m_device);
 	gameStatic.SetDeviceContext(m_deviceContext);
 
+	CreateRenderTargetView(_hWnd);
+
+
 	OneLevel.createLevel();
 	m_camera.init();
-	CreateProjMat();
+	CreateProjMat(_hWnd);
 
 }
 
@@ -25,32 +26,74 @@ Renderer::~Renderer()
 
 void Renderer::CreateDevice(HWND _hWnd)
 {
+	HRESULT hr = D3D11CreateDevice(
+		0,                 // default adapter
+		D3D_DRIVER_TYPE_HARDWARE,
+		0,                 // no software device
+		0,
+		0, 0,              // default feature level array
+		D3D11_SDK_VERSION,
+		&m_device,
+		&m_featureLevel,
+		&m_deviceContext);
 
-	// Define our swap chain
-	DXGI_SWAP_CHAIN_DESC swapChainDesc = { 0 };
-	swapChainDesc.BufferCount = 1;
-	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.OutputWindow = _hWnd;
-	swapChainDesc.SampleDesc.Count = 1;
-	swapChainDesc.Windowed = true;
+	RECT rc;
+	GetClientRect(_hWnd, &rc);
 
-	// Create the swap chain, device and device context
-	auto result = D3D11CreateDeviceAndSwapChain(
-		nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
-		nullptr, 0, D3D11_SDK_VERSION,
-		&swapChainDesc, &m_swapChain,
-		&m_device, nullptr, &m_deviceContext);
 
-	// Check for error
-	if (result != S_OK) {
-		MessageBox(nullptr, "Error creating DX11", "Error", MB_OK);
-		exit(0);
+	DXGI_SWAP_CHAIN_DESC sd = {};
+
+	sd.BufferDesc.Width = rc.right;
+	sd.BufferDesc.Height = rc.bottom;
+	sd.BufferDesc.RefreshRate.Numerator = 60;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+	UINT msaaQuality;
+	m_device->CheckMultisampleQualityLevels(
+		DXGI_FORMAT_R8G8B8A8_UNORM, 4, &msaaQuality);
+
+	if (msaaQuality)
+	{
+		sd.SampleDesc.Count = 4;
+		sd.SampleDesc.Quality = msaaQuality - 1;
+	}
+	else
+	{
+		sd.SampleDesc.Count = 1;
+		sd.SampleDesc.Quality = 0;
 	}
 
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.BufferCount = 1;
+	sd.OutputWindow = _hWnd;
+	sd.Windowed = true;
+	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	sd.Flags = 0;
+
+	// Create the swap chain, device and device context
+
+	IDXGIDevice* dxgiDevice = 0;
+	m_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
+
+	IDXGIAdapter* dxgiAdapter = 0;
+	dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter);
+
+	IDXGIFactory* dxgiFactory = 0;
+	dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory);
+
+	dxgiFactory->CreateSwapChain(m_device, &sd, &m_swapChain);
+
+	dxgiDevice->Release();
+	dxgiAdapter->Release();
+	dxgiFactory->Release();
+
+	int a = 0;
 }
 
-void Renderer::CreateRenderTargetView()
+void Renderer::CreateRenderTargetView(HWND _hWnd)
 {
 	ID3D11Texture2D* backBuffer;
 	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
@@ -64,7 +107,7 @@ void Renderer::CreateRenderTargetView()
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
 
 	RECT rc;
-	GetClientRect(0, &rc);
+	GetClientRect(_hWnd, &rc);
 
 	depthStencilDesc.Width =rc.right;
 	depthStencilDesc.Height = rc.bottom;
@@ -96,20 +139,28 @@ void Renderer::CreateRenderTargetView()
 	m_device->CreateDepthStencilView(m_depthStencilBuffer, 0, &m_DepthStencilView);
 
 	// Bind render target
-	m_deviceContext->OMSetRenderTargets(1, &m_RenderTartgetView,m_DepthStencilView);
+	m_deviceContext->OMSetRenderTargets(1, &m_RenderTartgetView, m_DepthStencilView);
 
 	// Set viewport
-	auto viewport = CD3D11_VIEWPORT(0.f, 0.f, (float)m_backBufferDesc.Width, (float)m_backBufferDesc.Height);
-	m_deviceContext->RSSetViewports(1, &viewport);
+
+	m_viewport.TopLeftX = 0;
+	m_viewport.TopLeftY = 0;
+	m_viewport.Width = static_cast<float>(rc.right);
+	m_viewport.Height = static_cast<float>(rc.bottom);
+	m_viewport.MinDepth = 0.0f;
+	m_viewport.MaxDepth = 1.0f;
+
+
+	m_deviceContext->RSSetViewports(1, &m_viewport);
 
 }
-void Renderer::CreateProjMat()
+void Renderer::CreateProjMat(HWND _hWnd)
 {
 	float pi = atan(1.f)*4.f;
 	XMMATRIX projMat;
 
 	RECT rc;
-	GetClientRect(0, &rc);
+	GetClientRect(_hWnd, &rc);
 
 	float width = rc.right;
 	float height = rc.bottom;
