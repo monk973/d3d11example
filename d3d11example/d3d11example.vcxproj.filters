@@ -39,6 +39,9 @@
     <ClInclude Include="VertexMatrixTypes.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="textureClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CustomWindow.cpp">
@@ -60,6 +63,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="textureClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

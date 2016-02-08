@@ -22,7 +22,7 @@ void cBox::init()
 	CreateVertex();
 	gameObject::CreateShaderAndConstantBuffer("triangleVertexShader.cso","trianglePixelShader.cso");
 	//CreateRenderStates();
-		
+	m_textureClass.load(L"data/stone01.tga");
 }
 
 
@@ -34,16 +34,24 @@ void cBox::draw()
 
 	XMMATRIX world = scale*rot*trans;
 
-	UINT stride = sizeof(vertex_pc);
+	UINT stride = sizeof(vertex_pt);
 	UINT offset = 0;
 
+	//
+	gameObject::SetWorldViewProj(world, gameStatic.GetViewMat(), gameStatic.GetProjMat());
+
+	ID3D11ShaderResourceView* tmpTextureView = m_textureClass.GetTexture();
+	gameStatic.getDeviceContext()->PSSetShaderResources(0, 1, &tmpTextureView);
+
+	//
 	gameStatic.getDeviceContext()->IASetInputLayout(m_IL);
 
 	gameStatic.getDeviceContext()->VSSetShader(m_vs, NULL, 0);
 	gameStatic.getDeviceContext()->PSSetShader(m_ps, NULL, 0);
-	
-	gameObject::SetWorldViewProj(world, gameStatic.GetViewMat(), gameStatic.GetProjMat());
 
+	gameStatic.getDeviceContext()->PSSetSamplers(0, 1, &m_samplerState);
+	
+	//
 	gameStatic.getDeviceContext()->IASetVertexBuffers(0, 1, &m_VB, &stride, &offset);
 
 	gameStatic.getDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -96,10 +104,10 @@ void cBox::update()
 
 void cBox::CreateVertex()
 {
-	vertex_pc v[] = {
-		{XMFLOAT3(-1.f,0.f,0.f),XMFLOAT4(1.f,0.f,0.f,1.f)},
-		{XMFLOAT3(0.f,1.f,0.f),XMFLOAT4(0.f,1.f,0.f,1.f)},
-		{XMFLOAT3(1.f,0.f,0.f),XMFLOAT4(0.f,0.f,1.f,1.f)}
+	vertex_pt v[] = {
+		{XMFLOAT3(-1.f,0.f,0.f),XMFLOAT2(0.f,1.f)},
+		{XMFLOAT3(0.f,1.f,0.f),XMFLOAT2(0.f,0.f)},
+		{XMFLOAT3(1.f,0.f,0.f),XMFLOAT2(1.f,0.f)}
 	};
 
 	int indices[] = {
@@ -108,14 +116,14 @@ void cBox::CreateVertex()
 
 	D3D11_BUFFER_DESC VertexDesc = {};
 	VertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	VertexDesc.ByteWidth = sizeof(vertex_pc) * (sizeof(v)/sizeof(vertex_pc));
+	VertexDesc.ByteWidth = sizeof(vertex_pt) * (sizeof(v)/sizeof(vertex_pt));
 	VertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 
 	D3D11_SUBRESOURCE_DATA vertexData = {};
 	vertexData.pSysMem = v;
 
-	UINT stride = sizeof(vertex_pc);
+	UINT stride = sizeof(vertex_pt);
 	gameStatic.getDevice()->CreateBuffer(&VertexDesc, &vertexData, &m_VB);
 
 	indexCount = sizeof(indices) / sizeof(int);

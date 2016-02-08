@@ -6,12 +6,12 @@ cbuffer cbMatrixBuffer {
 
 struct Input {
 	float4 position : POSITION;
-	float4 color : COLOR;
+	float2 texcoord : TEXCOORD0;
 };
 
 struct Output {
 	float4 position : SV_POSITION;
-	float4 color : COLOR;
+	float2 texcoord : TEXCOORD0;
 };
 
 Output main(Input input) {
@@ -23,7 +23,7 @@ Output main(Input input) {
 	output.position = mul(output.position, view);
 	output.position = mul(output.position, proj);
 
-	output.color = input.color;
+	output.texcoord = input.texcoord;
 
 	return output;
 }

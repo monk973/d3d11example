@@ -1,17 +1,27 @@
 #pragma once
 #include <Windows.h>
 
-#include <D3D11.h>
+#include <d3d11_1.h>
 #include <xnamath.h>
 
 #include <vector>
+#include <map>
+#include <string>
+
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 #include <fstream>
+
 
 #include "VertexMatrixTypes.h"
 #include "gameCamera.h"
 #include <math.h>
+
+#include "DirectXTex.h"
+using namespace DirectX;
+
+#include "textureClass.h"
 
 //ADD CLASS OR STRUCTS HERE.
 class CGameStatic
@@ -36,6 +46,7 @@ public:
 	void SetDeviceContext(ID3D11DeviceContext* _context);
 	ID3D11DeviceContext*& getDeviceContext();
 
+	
 	/*
 		Add here View,Proj Mat
 	*/
@@ -71,12 +82,12 @@ public:
 	virtual void update() = 0; 
 protected:
 	void CreateShaderAndConstantBuffer(const char* _vsDir, const char* _psDir);
-
 	void SetWorldViewProj(XMMATRIX& _w, XMMATRIX& _v, XMMATRIX& _p);
 
 protected:
 	ID3D11Buffer* m_VB = 0;
 	ID3D11Buffer* m_IB = 0;
+
 
 	UINT indexCount = 0;
 
@@ -84,4 +95,19 @@ protected:
 	ID3D11VertexShader* m_vs = 0;
 	ID3D11PixelShader* m_ps = 0;
 	ID3D11InputLayout* m_IL = 0;
+
+
+	ID3D11SamplerState* m_samplerState = nullptr;
+};
+
+class gameTimer{
+public:
+	gameTimer();
+	~gameTimer();
+
+	void update();
+	float getDeltaTime();
+
+private:
+	
 };

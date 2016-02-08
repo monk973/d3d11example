@@ -6,6 +6,12 @@ struct vertex_pc
 	XMFLOAT4 color;
 };
 
+struct vertex_pt
+{
+	XMFLOAT3 pos;
+	XMFLOAT2 uv;
+};
+
 struct matrix_WorldViewProj
 {
 	XMMATRIX world;

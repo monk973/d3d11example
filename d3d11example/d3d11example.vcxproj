@@ -94,7 +94,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D3DCompiler.lib;d3dx11d.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -152,6 +152,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelObjects.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="textureClass.h" />
     <ClInclude Include="VertexMatrixTypes.h" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +163,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="textureClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="trianglePixelShader.hlsl">
