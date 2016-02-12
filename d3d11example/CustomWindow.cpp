@@ -1,18 +1,11 @@
 #include "CustomWindow.h"
 
+CustomWindow* g_window=0;
 
 LRESULT CALLBACK msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message) 
-	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		return 0;
-	
-	}
 
-
-	return DefWindowProc(hWnd, message, wParam, lParam);
+	return g_window->CustomMsgProc(hWnd, message, wParam, lParam);
 }
 
 CustomWindow::CustomWindow(int width,int height)
@@ -35,14 +28,43 @@ CustomWindow::CustomWindow(int width,int height)
 		centerX, centerY, width, height, 0, 0, 0, 0);
 
 	UpdateWindow(m_hWnd);
+
+	g_window = this;
 }
 
 
 CustomWindow::~CustomWindow()
 {
+
+	g_window = 0;
 }
 
 HWND& CustomWindow::GetHandle()
 {
 	return m_hWnd;
+}
+
+LRESULT CustomWindow::CustomMsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+
+	int a = 0;
+
+	switch (message)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	case WM_MOVE:
+		//OnMove();
+		break;
+	case WM_MOVING:
+		a = 0;
+		break;
+	case WM_PAINT:
+		//OnPaint();
+		break;
+
+	}
+
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }

@@ -5,8 +5,7 @@
 
 int CALLBACK WinMain(HINSTANCE appInstance, HINSTANCE prevInstance, LPSTR cmdLine, int cmdCount) 
 {
-	CustomWindow window(800, 600);
-	Renderer renderer(window.GetHandle());
+	Renderer renderer(800,600);
 
 	MSG msg = {};
 

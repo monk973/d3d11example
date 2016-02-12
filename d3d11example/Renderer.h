@@ -2,19 +2,24 @@
 
 #include "GameStatic.h"
 #include "Level.h"
+#include "CustomWindow.h"
 
-class Renderer
+class Renderer : public CustomWindow
 {
 public:
 
-	Renderer(HWND _hWnd);
+	Renderer(int width,int height);
 	virtual ~Renderer();
 
-	void CreateProjMat(HWND _hWnd);
-	void CreateDevice(HWND _hWnd);
-	void CreateRenderTargetView(HWND _hWnd);
+	void CreateProjMat();
+	void CreateDevice();
+	void CreateRenderTargetView();
 	void Render();
 	void update();
+
+private:
+	virtual void OnPaint() override;
+	virtual void OnMove() override;
 
 private:
 	ID3D11Device* m_device;

@@ -2,19 +2,19 @@
 
 
 
-
-Renderer::Renderer(HWND _hWnd)
+Renderer::Renderer(int width,int height)
+	:CustomWindow(width, height)
 {
-	CreateDevice(_hWnd);
+	CreateDevice();
 	gameStatic.SetDevice(m_device);
 	gameStatic.SetDeviceContext(m_deviceContext);
 
-	CreateRenderTargetView(_hWnd);
+	CreateRenderTargetView();
 
 
 	OneLevel.createLevel();
 	m_camera.init();
-	CreateProjMat(_hWnd);
+	CreateProjMat();
 
 }
 
@@ -24,7 +24,7 @@ Renderer::~Renderer()
 
 }
 
-void Renderer::CreateDevice(HWND _hWnd)
+void Renderer::CreateDevice()
 {
 	HRESULT hr = D3D11CreateDevice(
 		0,                 // default adapter
@@ -38,7 +38,7 @@ void Renderer::CreateDevice(HWND _hWnd)
 		&m_deviceContext);
 
 	RECT rc;
-	GetClientRect(_hWnd, &rc);
+	GetClientRect(GetHandle(), &rc);
 
 	gameStatic.SetFeatureLevel(m_featureLevel);
 	
@@ -71,7 +71,7 @@ void Renderer::CreateDevice(HWND _hWnd)
 
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.BufferCount = 1;
-	sd.OutputWindow = _hWnd;
+	sd.OutputWindow = GetHandle();
 	sd.Windowed = true;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags = 0;
@@ -96,7 +96,7 @@ void Renderer::CreateDevice(HWND _hWnd)
 	int a = 0;
 }
 
-void Renderer::CreateRenderTargetView(HWND _hWnd)
+void Renderer::CreateRenderTargetView()
 {
 	ID3D11Texture2D* backBuffer;
 	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
@@ -110,7 +110,7 @@ void Renderer::CreateRenderTargetView(HWND _hWnd)
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
 
 	RECT rc;
-	GetClientRect(_hWnd, &rc);
+	GetClientRect(GetHandle(), &rc);
 
 	depthStencilDesc.Width =rc.right;
 	depthStencilDesc.Height = rc.bottom;
@@ -157,13 +157,13 @@ void Renderer::CreateRenderTargetView(HWND _hWnd)
 	m_deviceContext->RSSetViewports(1, &m_viewport);
 
 }
-void Renderer::CreateProjMat(HWND _hWnd)
+void Renderer::CreateProjMat()
 {
 	float pi = atan(1.f)*4.f;
 	XMMATRIX projMat;
 
 	RECT rc;
-	GetClientRect(_hWnd, &rc);
+	GetClientRect(GetHandle(), &rc);
 
 	float width = rc.right;
 	float height = rc.bottom;
@@ -206,4 +206,16 @@ void Renderer::update()
 	{
 		o->update();
 	}
+}
+
+void Renderer::OnPaint()
+{
+	update();
+	Render();
+}
+
+void Renderer::OnMove()
+{
+	update();
+	Render();
 }
