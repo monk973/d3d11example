@@ -149,6 +149,7 @@
     <ClInclude Include="gameCamera.h" />
     <ClInclude Include="CustomWindow.h" />
     <ClInclude Include="GameStatic.h" />
+    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelObjects.h" />
     <ClInclude Include="Renderer.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="gameCamera.cpp" />
     <ClCompile Include="GameStatic.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />

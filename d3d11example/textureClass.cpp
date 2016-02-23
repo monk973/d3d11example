@@ -9,6 +9,8 @@ textureClass::textureClass()
 
 textureClass::~textureClass()
 {
+
+	SAFE_RELEASE(m_textureView);
 }
 
 void textureClass::load(LPCWSTR _dir)

@@ -21,9 +21,12 @@ int CALLBACK WinMain(HINSTANCE appInstance, HINSTANCE prevInstance, LPSTR cmdLin
 				break;
 			}
 		}
+		gameTimer.update();
 
 		renderer.update();
 		renderer.Render();
+
+
 
 	}
 	

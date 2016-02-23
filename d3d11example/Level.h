@@ -18,5 +18,6 @@ public:
 	void createLevel();
 public:
 	cBox* box;
+	cBox* box2;
 };
 

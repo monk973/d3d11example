@@ -13,7 +13,7 @@
 using namespace std;
 #include <fstream>
 
-
+//ADD CUSTOM CLASS HEADER HERE
 #include "VertexMatrixTypes.h"
 #include "gameCamera.h"
 #include <math.h>
@@ -23,7 +23,8 @@ using namespace DirectX;
 
 #include "textureClass.h"
 
-//ADD CLASS OR STRUCTS HERE.
+#include "GameTimer.h"
+
 class CGameStatic
 {
 public:
@@ -56,7 +57,7 @@ public:
 	XMMATRIX GetProjMat();
 	
 	void SetFeatureLevel(D3D_FEATURE_LEVEL _level);
-	D3D_FEATURE_LEVEL GetFeatureLevel();
+	int GetFeatureLevel();
 
 private:
 	ID3D11Device* m_device;
@@ -71,6 +72,9 @@ private:
 };
 #define gameStatic CGameStatic::GetInstance()
 #define getFeatureLevel CGameStatic::GetInstance().GetFeatureLevel()
+#define _getDevice CGameStatic::GetInstance().getDevice()
+#define _getDeviceContext CGameStatic::GetInstance().getDeviceContext()
+#define SAFE_RELEASE(t) if(t) { t->Release(); }
 
 class gameObject
 {
@@ -98,16 +102,4 @@ protected:
 
 
 	ID3D11SamplerState* m_samplerState = nullptr;
-};
-
-class gameTimer{
-public:
-	gameTimer();
-	~gameTimer();
-
-	void update();
-	float getDeltaTime();
-
-private:
-	
 };

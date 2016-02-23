@@ -21,6 +21,18 @@ Renderer::Renderer(int width,int height)
 
 Renderer::~Renderer()
 {
+	SAFE_RELEASE(m_device);
+	
+	if (m_deviceContext){
+		m_deviceContext->ClearState();
+		SAFE_RELEASE(m_deviceContext);
+	}
+
+	SAFE_RELEASE(m_RenderTartgetView);
+	SAFE_RELEASE(m_DepthStencilView);
+	SAFE_RELEASE(m_depthStencilBuffer);
+	SAFE_RELEASE(m_swapChain);
+
 
 }
 
@@ -210,12 +222,10 @@ void Renderer::update()
 
 void Renderer::OnPaint()
 {
-	update();
-	Render();
+	//
 }
 
 void Renderer::OnMove()
 {
-	update();
-	Render();
+	//
 }

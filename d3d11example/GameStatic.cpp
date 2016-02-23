@@ -69,13 +69,21 @@ void CGameStatic::SetFeatureLevel(D3D_FEATURE_LEVEL _level)
 	m_featureLevel = _level;
 }
 
-D3D_FEATURE_LEVEL CGameStatic::GetFeatureLevel()
+int CGameStatic::GetFeatureLevel()
 {
 	return m_featureLevel;
 }
 
 gameObject::~gameObject()
 {
+	SAFE_RELEASE(m_VB);
+	SAFE_RELEASE(m_IB);
+	SAFE_RELEASE(m_matrixBuffer);
+	SAFE_RELEASE(m_vs);
+	SAFE_RELEASE(m_ps);
+	SAFE_RELEASE(m_IL);
+
+	SAFE_RELEASE(m_samplerState);
 
 }
 
