@@ -16,6 +16,7 @@ Renderer::Renderer(int width,int height)
 	m_camera.init();
 	CreateProjMat();
 
+	gameStatic.SetHWND(GetHandle());
 }
 
 
@@ -180,7 +181,11 @@ void Renderer::CreateProjMat()
 	float width = rc.right;
 	float height = rc.bottom;
 	projMat = XMMatrixPerspectiveFovLH(0.25f*pi, width / height, 1.0f, 1000.0f);
-	gameStatic.SetProjMat(projMat);
+
+	XMFLOAT4X4 storeMat;
+	XMStoreFloat4x4(&storeMat, projMat);
+
+	gameStatic.SetProjMat(storeMat);
 
 }
 

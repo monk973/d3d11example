@@ -3,11 +3,6 @@
 
 cBox::cBox()
 {
-	m_positionVector.x = 0;
-	m_positionVector.y = 0;
-	m_positionVector.z = 0;
-	m_rotationVector = {};
-	m_worldMatrix = XMMatrixIdentity();
 }
 
 
@@ -88,18 +83,21 @@ void cBox::init()
 
 void cBox::draw()
 {
-
+	/*
 	XMMATRIX scale = XMMatrixIdentity();
 	XMMATRIX rot = XMMatrixIdentity();
 	XMMATRIX trans = XMMatrixTranslation(m_positionVector.x, m_positionVector.y, m_positionVector.z);
 
 	XMMATRIX world = scale*rot*trans;
+	*/
+
+	XMFLOAT4X4 worldMat= CalculateWorldMatrix();
 
 	UINT stride = sizeof(vertex_pt);
 	UINT offset = 0;
 
 	//
-	gameObject::SetWorldViewProj(world, gameStatic.GetViewMat(), gameStatic.GetProjMat());
+	gameObject::SetWorldViewProj(worldMat, gameStatic.GetViewMat(), gameStatic.GetProjMat());
 
 	ID3D11ShaderResourceView* tmpTextureView = m_textureClass.GetTexture();
 	gameStatic.getDeviceContext()->PSSetShaderResources(0, 1, &tmpTextureView);
@@ -131,6 +129,16 @@ void cBox::draw()
 
 void cBox::update()
 {
+	/*
+	    유니티 엔진의 방식
+        float h = Input.GetAxisRaw ("Horizontal");
+        float v = Input.GetAxisRaw ("Vertical");
+
+		Vector3 dirVec=Vector3(h,0,v);
+		dirVec.normalize();
+
+
+	*/
 	
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
@@ -162,7 +170,7 @@ void cBox::update()
 		m_positionVector.z += -1.f* gameTimer.getDeltaTime();
 	}
 	
-	
+
 }
 
 void cBox::SetPosition(XMFLOAT3 _v)

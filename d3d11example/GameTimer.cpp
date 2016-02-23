@@ -36,6 +36,20 @@ void CGameTimer::update()
 	{
 		mDeltaTime = 0.0;
 	}
+
+	m_elapsedTime += mDeltaTime;
+	m_cnt++;
+	if (m_elapsedTime >= 1.f)
+	{
+
+		std::ostringstream outs;
+		//outs.precision(6);
+		outs << "FPS: " << m_cnt << "    ";
+		SetWindowText(gameStatic.GetHWND(), outs.str().c_str());
+
+		m_elapsedTime = 0;
+		m_cnt = 0;
+	}
 }
 
 float CGameTimer::getDeltaTime()

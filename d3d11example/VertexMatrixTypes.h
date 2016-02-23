@@ -14,8 +14,8 @@ struct vertex_pt
 
 struct matrix_WorldViewProj
 {
-	XMMATRIX world;
-	XMMATRIX view;
-	XMMATRIX proj;
+	XMFLOAT4X4 world;
+	XMFLOAT4X4 view;
+	XMFLOAT4X4 proj;
 
 };

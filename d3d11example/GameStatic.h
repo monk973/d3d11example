@@ -12,6 +12,7 @@
 #include <stdio.h>
 using namespace std;
 #include <fstream>
+#include <sstream>
 
 //ADD CUSTOM CLASS HEADER HERE
 #include "VertexMatrixTypes.h"
@@ -51,13 +52,16 @@ public:
 	/*
 		Add here View,Proj Mat
 	*/
-	void SetViewMat(XMMATRIX& _view);
-	XMMATRIX GetViewMat();
-	void SetProjMat(XMMATRIX& _proj);
-	XMMATRIX GetProjMat();
+	void SetViewMat(XMFLOAT4X4& _view);
+	XMFLOAT4X4 GetViewMat();
+	void SetProjMat(XMFLOAT4X4& _proj);
+	XMFLOAT4X4 GetProjMat();
 	
 	void SetFeatureLevel(D3D_FEATURE_LEVEL _level);
 	int GetFeatureLevel();
+
+	HWND GetHWND();
+	void SetHWND(HWND _hWND);
 
 private:
 	ID3D11Device* m_device;
@@ -65,10 +69,12 @@ private:
 
 	vector<class gameObject*> m_arrayGameObject;
 
-	XMMATRIX m_view;
-	XMMATRIX m_proj;
+	XMFLOAT4X4 m_view;
+	XMFLOAT4X4 m_proj;
 
 	D3D_FEATURE_LEVEL m_featureLevel;
+
+	HWND m_hWnd;
 };
 #define gameStatic CGameStatic::GetInstance()
 #define getFeatureLevel CGameStatic::GetInstance().GetFeatureLevel()
@@ -79,6 +85,7 @@ private:
 class gameObject
 {
 public:
+	gameObject();
 	virtual ~gameObject();
 public:
 	virtual void init() = 0;
@@ -86,7 +93,9 @@ public:
 	virtual void update() = 0; 
 protected:
 	void CreateShaderAndConstantBuffer(const char* _vsDir, const char* _psDir);
-	void SetWorldViewProj(XMMATRIX& _w, XMMATRIX& _v, XMMATRIX& _p);
+	void SetWorldViewProj(XMFLOAT4X4& _w, XMFLOAT4X4& _v, XMFLOAT4X4& _p);
+
+	XMFLOAT4X4 CalculateWorldMatrix();
 
 protected:
 	ID3D11Buffer* m_VB = 0;
@@ -102,4 +111,21 @@ protected:
 
 
 	ID3D11SamplerState* m_samplerState = nullptr;
+
+protected:
+
+	XMFLOAT3 m_scaleVector;
+	XMFLOAT3 m_positionVector;
+	XMFLOAT3 m_rotationVector;
+
+	//
+
+	XMFLOAT4X4 m_matScale = {};
+	XMFLOAT4X4 m_matRot = {};
+	XMFLOAT4X4 m_matTranslation = {};
+
+
+
+	//S*R*T .. overall info matrix
+	XMFLOAT4X4 m_matTransform = {};
 };

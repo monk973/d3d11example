@@ -43,23 +43,23 @@ ID3D11DeviceContext *& CGameStatic::getDeviceContext()
 	return m_context;
 }
 
-void CGameStatic::SetViewMat(XMMATRIX&  _view)
+void CGameStatic::SetViewMat(XMFLOAT4X4&  _view)
 {
 	m_view = _view;
 
 }
 
-XMMATRIX CGameStatic::GetViewMat()
+XMFLOAT4X4 CGameStatic::GetViewMat()
 {
 	return m_view;
 }
 
-void CGameStatic::SetProjMat(XMMATRIX&  _proj)
+void CGameStatic::SetProjMat(XMFLOAT4X4&  _proj)
 {
 	m_proj = _proj;
 }
 
-XMMATRIX CGameStatic::GetProjMat()
+XMFLOAT4X4 CGameStatic::GetProjMat()
 {
 	return m_proj;
 }
@@ -72,6 +72,29 @@ void CGameStatic::SetFeatureLevel(D3D_FEATURE_LEVEL _level)
 int CGameStatic::GetFeatureLevel()
 {
 	return m_featureLevel;
+}
+
+HWND CGameStatic::GetHWND()
+{
+	return m_hWnd;
+}
+
+void CGameStatic::SetHWND(HWND _hWND)
+{
+	m_hWnd = _hWND;
+}
+
+gameObject::gameObject()
+{
+	m_scaleVector = XMFLOAT3(1, 1, 1);
+	m_rotationVector = XMFLOAT3(0,0,0);
+	m_positionVector = XMFLOAT3(0,0,0);
+
+	XMStoreFloat4x4(&m_matScale, XMMatrixIdentity());
+	XMStoreFloat4x4(&m_matRot, XMMatrixIdentity());
+	XMStoreFloat4x4(&m_matTranslation, XMMatrixIdentity());
+
+	XMStoreFloat4x4(&m_matTransform, XMMatrixIdentity());
 }
 
 gameObject::~gameObject()
@@ -136,8 +159,17 @@ void gameObject::CreateShaderAndConstantBuffer(const char * _vsDir, const char *
 
 }
 
-void gameObject::SetWorldViewProj(XMMATRIX & _w, XMMATRIX & _v, XMMATRIX & _p)
+void gameObject::SetWorldViewProj(XMFLOAT4X4& _w, XMFLOAT4X4& _v, XMFLOAT4X4& _p)
 {
+	XMMATRIX world, view, proj;
+	world = XMLoadFloat4x4(&_w);
+	view = XMLoadFloat4x4(&_v);
+	proj = XMLoadFloat4x4(&_p);
+
+	world = XMMatrixTranspose(world);
+	view = XMMatrixTranspose(view);
+	proj = XMMatrixTranspose(proj);
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	matrix_WorldViewProj* dataPtr;
 
@@ -145,16 +177,39 @@ void gameObject::SetWorldViewProj(XMMATRIX & _w, XMMATRIX & _v, XMMATRIX & _p)
 	gameStatic.getDeviceContext()->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
 	dataPtr = (matrix_WorldViewProj*)mappedResource.pData;
+	//dataPtr->world = world;
+	//dataPtr->view = view;
+	//dataPtr->proj = proj;
 
-	dataPtr->world = XMMatrixTranspose(_w);
-	dataPtr->view = XMMatrixTranspose(_v);
-	dataPtr->proj = XMMatrixTranspose(_p);
+	XMStoreFloat4x4(&(dataPtr->world), world);
+	XMStoreFloat4x4(&(dataPtr->view), view);
+	XMStoreFloat4x4(&(dataPtr->proj), proj);
+
 
 	gameStatic.getDeviceContext()->Unmap(m_matrixBuffer, 0);
 
 	gameStatic.getDeviceContext()->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
 
 
+}
+
+XMFLOAT4X4 gameObject::CalculateWorldMatrix()
+{
+	XMMATRIX scale, rot, trans, world;
+
+	scale = XMMatrixScalingFromVector(XMLoadFloat3(&m_scaleVector));
+	rot= XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&m_rotationVector));
+	trans= XMMatrixTranslationFromVector(XMLoadFloat3(&m_positionVector));
+
+	world = scale* rot* trans;
+
+	XMStoreFloat4x4(&m_matScale, scale);
+	XMStoreFloat4x4(&m_matRot, rot);
+	XMStoreFloat4x4(&m_matTranslation, trans);
+	XMStoreFloat4x4(&m_matTransform, world);
+
+
+	return m_matTransform;
 }
 
 
