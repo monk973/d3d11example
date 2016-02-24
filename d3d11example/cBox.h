@@ -14,7 +14,6 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 
-	void SetPosition(XMFLOAT3 _v);
 
 private:
 	void CreateVertex();

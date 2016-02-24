@@ -83,15 +83,42 @@ void cBox::init()
 
 void cBox::draw()
 {
-	/*
-	XMMATRIX scale = XMMatrixIdentity();
-	XMMATRIX rot = XMMatrixIdentity();
-	XMMATRIX trans = XMMatrixTranslation(m_positionVector.x, m_positionVector.y, m_positionVector.z);
+	XMFLOAT4X4 worldMat = CalculateWorldMatrix();
 
-	XMMATRIX world = scale*rot*trans;
-	*/
+	XMMATRIX calc_world = XMLoadFloat4x4(&worldMat);
+	XMMATRIX calc_parentMat = XMLoadFloat4x4(&CalculateParentMatrices(m_parent));
 
-	XMFLOAT4X4 worldMat= CalculateWorldMatrix();
+	if (m_parent)
+	{
+
+		/*
+			자전 : 스스로 회전
+			공전 : 대상을 기준으로 회전
+
+			S*R*T*(ParentMat...) 자전상태
+			S*R*T*R*(ParentMat...) 공전상태
+
+			이동키를 눌를수록 자식 오브젝트가 이상한 방향으로 나아간다면 자식 오브젝트도 이동키에 
+			영향을받아 update함수를 호출하는것은 아닌지 확인해보도록.
+
+			이제 남은 문제는 왜 rotOrbit.z+=10.f * gameTimer.getDeltaTime() 이 정상적으로
+			작동을 하지않냐는것이다. 초당 10도 만큼 roll회전을 하라고하고싶은데..왜 랙걸리면서 움직이냐고
+
+		*/
+
+
+		static XMFLOAT3 rotOrbit = {};
+		rotOrbit.z +=0.001f;
+
+
+		XMMATRIX calc_orbit= XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&rotOrbit));
+		
+		calc_world *= calc_orbit;
+	}
+
+
+	calc_world *= calc_parentMat;
+	XMStoreFloat4x4(&worldMat, calc_world);
 
 	UINT stride = sizeof(vertex_pt);
 	UINT offset = 0;
@@ -118,7 +145,7 @@ void cBox::draw()
 	gameStatic.getDeviceContext()->IASetIndexBuffer(m_IB, DXGI_FORMAT_R32_UINT, 0);
 	
 	//if you want to disable rasterizer state then just put to null.
-	//_getDeviceContext->RSSetState(m_rasterizerState);
+	_getDeviceContext->RSSetState(m_rasterizerState);
 
 	// Render the triangle.
 	gameStatic.getDeviceContext()->DrawIndexed(indexCount, 0, 0);
@@ -129,6 +156,8 @@ void cBox::draw()
 
 void cBox::update()
 {
+	if (m_parent)
+		return;
 	/*
 	    유니티 엔진의 방식
         float h = Input.GetAxisRaw ("Horizontal");
@@ -139,7 +168,8 @@ void cBox::update()
 
 
 	*/
-	
+
+
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
 		m_positionVector.y += 1.f * gameTimer.getDeltaTime();
@@ -173,10 +203,6 @@ void cBox::update()
 
 }
 
-void cBox::SetPosition(XMFLOAT3 _v)
-{
-	m_positionVector = _v;
-}
 
 void cBox::CreateVertex()
 {
@@ -219,7 +245,7 @@ void cBox::CreateVertex()
 void cBox::CreateRenderStates()
 {
 	D3D11_RASTERIZER_DESC desc = {};
-	desc.FillMode = D3D11_FILL_WIREFRAME;
+	desc.FillMode = D3D11_FILL_SOLID;
 	desc.CullMode = D3D11_CULL_NONE;
 	_getDevice->CreateRasterizerState(&desc, &m_rasterizerState);
 

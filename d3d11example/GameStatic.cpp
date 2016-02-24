@@ -95,6 +95,8 @@ gameObject::gameObject()
 	XMStoreFloat4x4(&m_matTranslation, XMMatrixIdentity());
 
 	XMStoreFloat4x4(&m_matTransform, XMMatrixIdentity());
+
+	m_parent = nullptr;
 }
 
 gameObject::~gameObject()
@@ -108,6 +110,16 @@ gameObject::~gameObject()
 
 	SAFE_RELEASE(m_samplerState);
 
+}
+
+void gameObject::SetParent(gameObject * _p)
+{
+	m_parent = _p;
+}
+
+gameObject * gameObject::GetParent()
+{
+	return m_parent;
 }
 
 void gameObject::CreateShaderAndConstantBuffer(const char * _vsDir, const char * _psDir)
@@ -193,6 +205,22 @@ void gameObject::SetWorldViewProj(XMFLOAT4X4& _w, XMFLOAT4X4& _v, XMFLOAT4X4& _p
 
 }
 
+void gameObject::SetPosition(XMFLOAT3 _v)
+{
+	m_positionVector = _v;
+}
+
+void gameObject::SetRotation(XMFLOAT3 _v)
+{
+	m_rotationVector = _v;
+	
+}
+
+void gameObject::SetScale(XMFLOAT3 _v)
+{
+	m_scaleVector = _v;
+}
+
 XMFLOAT4X4 gameObject::CalculateWorldMatrix()
 {
 	XMMATRIX scale, rot, trans, world;
@@ -210,6 +238,27 @@ XMFLOAT4X4 gameObject::CalculateWorldMatrix()
 
 
 	return m_matTransform;
+}
+
+XMFLOAT4X4 gameObject::CalculateParentMatrices(gameObject * _p)
+{
+	XMFLOAT4X4 result;
+	XMStoreFloat4x4(&result, XMMatrixIdentity());
+
+	if (_p == NULL)
+	{
+		return result;
+	}
+
+	XMMATRIX world = XMLoadFloat4x4(&(_p->CalculateWorldMatrix()) );
+	XMMATRIX parentMat = XMLoadFloat4x4(&CalculateParentMatrices(_p->GetParent()));
+
+	world *= parentMat;
+	
+	XMStoreFloat4x4(&result, world);
+
+	return result;
+
 }
 
 
