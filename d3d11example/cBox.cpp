@@ -104,11 +104,15 @@ void cBox::draw()
 			이제 남은 문제는 왜 rotOrbit.z+=10.f * gameTimer.getDeltaTime() 이 정상적으로
 			작동을 하지않냐는것이다. 초당 10도 만큼 roll회전을 하라고하고싶은데..왜 랙걸리면서 움직이냐고
 
+			3월 7일 해결함.
+
+			델타타임값이 프로그램 시작시 비정상적인 값으로 초기화되기때문에 델타타임이 10을넘어가면 0으로 초기화하도록했다.
+			그리고 XMMatrixRotationRollPitchYawFromVector함수가 받는 벡터값은 라디안으로서 처리한다.
 		*/
 
 
 		static XMFLOAT3 rotOrbit = {};
-		rotOrbit.z +=0.001f;
+		rotOrbit.z += XMConvertToRadians( 90.f * gameTimer.getDeltaTime() );
 
 
 		XMMATRIX calc_orbit= XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&rotOrbit));

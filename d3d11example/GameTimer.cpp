@@ -10,6 +10,11 @@ CGameTimer::CGameTimer()
 	mSecondsPerCount = 1.0 / (double)countsPerSec;
 
 	int a = 0;
+
+	std::ostringstream outs;
+	outs << "FPS: ";
+	SetWindowText(gameStatic.GetHWND(), outs.str().c_str());
+
 }
 
 
@@ -36,9 +41,14 @@ void CGameTimer::update()
 	{
 		mDeltaTime = 0.0;
 	}
+	else if (mDeltaTime >= 10.0)
+	{
+		mDeltaTime = 0.0;
+	}
 
 	m_elapsedTime += mDeltaTime;
 	m_cnt++;
+
 	if (m_elapsedTime >= 1.f)
 	{
 
