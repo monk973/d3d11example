@@ -1,4 +1,4 @@
-﻿  GameTimer.cpp
+﻿  gameObject.cpp
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2662): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2663): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2664): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
@@ -37,6 +37,55 @@ c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathvector.inl(1269): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
 c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
-c:\users\eden\documents\visual studio 2015\projects\d3d11example\d3d11example\gametimer.cpp(49): warning C4244: '+=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\eden\documents\visual studio 2015\projects\d3d11example\d3d11example\gametimer.cpp(69): warning C4244: 'return': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cBox.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2662): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2663): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2664): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2665): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2666): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2667): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2668): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2689): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2690): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2691): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2694): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2695): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2698): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2702): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2712): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2713): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2715): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2716): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2717): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2727): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2728): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2729): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2730): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2731): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2732): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2742): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2743): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2754): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathvector.inl(1269): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\users\eden\documents\visual studio 2015\projects\d3d11example\d3d11example\cbox.cpp(42): warning C4101: 'ShaderModel' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다...
+DirectXTex.lib(BC.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(BC.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(BC4BC5.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(BC4BC5.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(BC6HBC7.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(BC6HBC7.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexCompress.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexCompress.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexConvert.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexConvert.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexD3D11.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexD3D11.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexDDS.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexDDS.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexImage.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexImage.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexMipMaps.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexMipMaps.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex.lib(DirectXTexUtil.obj) : warning LNK4099: 'DirectXTex.pdb' PDB를 'DirectXTex.lib(DirectXTexUtil.obj)' 또는 'C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\DirectXTex.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
   d3d11example.vcxproj -> C:\Users\Eden\Documents\Visual Studio 2015\Projects\d3d11example\Debug\d3d11example.exe

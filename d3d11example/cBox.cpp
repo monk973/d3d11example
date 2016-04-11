@@ -35,6 +35,8 @@ char* foo1()
 
 void cBox::init()
 {
+	importModel.Init("data/cube.txt");
+
 	CreateVertex();
 
 	bool ShaderModel;
@@ -77,7 +79,8 @@ void cBox::init()
 
 	gameObject::CreateShaderAndConstantBuffer(vsDir.c_str(), psDir.c_str());
 	CreateRenderStates();
-	m_textureClass.load(L"data/stone01.tga");
+	m_textureClass.load(L"data/seafloor.dds");
+
 }
 
 
@@ -124,16 +127,25 @@ void cBox::draw()
 	calc_world *= calc_parentMat;
 	XMStoreFloat4x4(&worldMat, calc_world);
 
-	UINT stride = sizeof(vertex_pt);
+	UINT stride = sizeof(vertex_ptn);
 	UINT offset = 0;
 
-	//
+	//WVP buffer
 	gameObject::SetWorldViewProj(worldMat, gameStatic.GetViewMat(), gameStatic.GetProjMat());
 
+	//texture
 	ID3D11ShaderResourceView* tmpTextureView = m_textureClass.GetTexture();
-	gameStatic.getDeviceContext()->PSSetShaderResources(0, 1, &tmpTextureView);
-	
-	
+	gameStatic.getDeviceContext()->PSSetShaderResources(0, 1, &(tmpTextureView));
+
+	//light buffer
+	XMFLOAT4 diffuseColor = XMFLOAT4(212/255.f, 244/255.f, 250/255.f, 1);
+
+	//XMVECTOR _xmlightDir = XMVector3Normalize(XMLoadFloat3( &XMFLOAT3(0, 0, 1)));
+	XMFLOAT3 lightDir = XMFLOAT3(0, 0,1.f);
+	//XMStoreFloat3(&lightDir, _xmlightDir);
+
+	gameObject::SetLightBuffer(diffuseColor, lightDir);
+
 	//
 	gameStatic.getDeviceContext()->IASetInputLayout(m_IL);
 
@@ -146,14 +158,14 @@ void cBox::draw()
 	gameStatic.getDeviceContext()->IASetVertexBuffers(0, 1, &m_VB, &stride, &offset);
 
 	gameStatic.getDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	gameStatic.getDeviceContext()->IASetIndexBuffer(m_IB, DXGI_FORMAT_R32_UINT, 0);
+	//gameStatic.getDeviceContext()->IASetIndexBuffer(m_IB, DXGI_FORMAT_R32_UINT, 0);
 	
 	//if you want to disable rasterizer state then just put to null.
 	_getDeviceContext->RSSetState(m_rasterizerState);
 
 	// Render the triangle.
-	gameStatic.getDeviceContext()->DrawIndexed(indexCount, 0, 0);
-
+	//gameStatic.getDeviceContext()->DrawIndexed(indexCount, 0, 0);
+	_getDeviceContext->Draw(importModel.GetVertexCount(), 0);
 	
 
 }
@@ -204,46 +216,59 @@ void cBox::update()
 		m_positionVector.z += -1.f* gameTimer.getDeltaTime();
 	}
 	
-
+	m_rotationVector.y+= XMConvertToRadians(90.f * gameTimer.getDeltaTime());
 }
 
 
 void cBox::CreateVertex()
 {
-	vertex_pt v[] = {
-		{XMFLOAT3(-1.f,0.f,0.f),XMFLOAT2(0.f,1.f)},
-		{XMFLOAT3(0.f,1.f,0.f),XMFLOAT2(0.f,0.f)},
-		{XMFLOAT3(1.f,0.f,0.f),XMFLOAT2(1.f,0.f)}
+	/*
+	vertex_ptn v[] = {
+		{XMFLOAT3(-1.f,0.f,0.f),XMFLOAT2(0.f,1.f),XMFLOAT3(0,0,-1)},
+		{XMFLOAT3(0.f,1.f,0.f),XMFLOAT2(0.f,0.f),XMFLOAT3(0,0,-1) },
+		{XMFLOAT3(1.f,0.f,0.f),XMFLOAT2(1.f,0.f),XMFLOAT3(0,0,-1) }
 	};
 
+	int count = sizeof(v) / sizeof(vertex_ptn);
+	
+	for (int i = 0; i < count; i+=3)
+	{
+		XMVECTOR v1=XMLoadFloat3(&(v[0].pos));
+		XMVECTOR v2=XMLoadFloat3(&(v[1].pos));
+		XMVECTOR v3=XMLoadFloat3(&(v[2].pos));
+
+		XMVECTOR v1_face = XMVector3Normalize(XMVector3Cross(v1 - v2, v1 - v3));
+		XMVECTOR v2_face = XMVector3Normalize(XMVector3Cross(v2 - v3, v2 - v1));
+		XMVECTOR v3_face = XMVector3Normalize(XMVector3Cross(v3 - v1, v3 - v2));
+
+
+		//XMVector3Normalize
+		XMStoreFloat3(&(v[0].normal), v1_face);
+		XMStoreFloat3(&(v[1].normal), v2_face);
+		XMStoreFloat3(&(v[2].normal), v3_face);
+
+		
+		
+	}
+	
 	int indices[] = {
 		0,1,2
 	};
-
+	*/
+	//4월3일 : importModel을 통해서 vertex버퍼를 생성하엿다.
 	D3D11_BUFFER_DESC VertexDesc = {};
 	VertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	VertexDesc.ByteWidth = sizeof(vertex_pt) * (sizeof(v)/sizeof(vertex_pt));
+	VertexDesc.ByteWidth = sizeof(vertex_ptn) * importModel.GetVertexCount();
 	VertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
-
+	vertex_ptn* tmp = importModel.GetVerticesInfo();
 	D3D11_SUBRESOURCE_DATA vertexData = {};
-	vertexData.pSysMem = v;
+	vertexData.pSysMem = tmp;
 
-	UINT stride = sizeof(vertex_pt);
-	gameStatic.getDevice()->CreateBuffer(&VertexDesc, &vertexData, &m_VB);
-
-	indexCount = sizeof(indices) / sizeof(int);
-	D3D11_BUFFER_DESC indexDesc = {};
-	indexDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexDesc.ByteWidth = sizeof(int)* (indexCount);
-	indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-	D3D11_SUBRESOURCE_DATA indexData = {};
-	indexData.pSysMem = indices;
-
-	gameStatic.getDevice()->CreateBuffer(&VertexDesc, &indexData,&m_IB);
-
-
+	UINT stride = sizeof(vertex_ptn);
+	HRESULT hr=_getDevice->CreateBuffer(&VertexDesc, &vertexData, &m_VB);
+	
+	int a = 0;
 }
 
 void cBox::CreateRenderStates()

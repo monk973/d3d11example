@@ -1,5 +1,6 @@
 #pragma once
 #include "GameStatic.h"
+#include "ImportModel.h"
 
 
 class cBox :
@@ -27,6 +28,9 @@ private:
 	ID3D11BlendState* m_blendState = nullptr;
 
 	textureClass m_textureClass;
+
+
+	ImportModel importModel;
 	
 
 };

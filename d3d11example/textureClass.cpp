@@ -19,8 +19,8 @@ void textureClass::load(LPCWSTR _dir)
 	
 	TexMetadata metaData;
 
-	HRESULT result = LoadFromTGAFile(L"data/stone01.tga", &metaData, *img);
-
+	//HRESULT result = LoadFromTGAFile(L"data/stone01.tga", &metaData, *img);
+	HRESULT result = LoadFromDDSFile(_dir,0, &metaData, *img);
 	HRESULT result2= CreateShaderResourceView(gameStatic.getDevice(), img->GetImages(), img->GetImageCount(), metaData, &m_textureView);
 
 	delete img;

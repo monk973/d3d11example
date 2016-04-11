@@ -7,11 +7,13 @@ cbuffer cbMatrixBuffer {
 struct Input {
 	float4 position : POSITION;
 	float2 texcoord : TEXCOORD0;
+	float3 normal : NORMAL;
 };
 
 struct Output {
 	float4 position : SV_POSITION;
 	float2 texcoord : TEXCOORD0;
+	float3 normal : NORMAL;
 };
 
 Output main(Input input) {
@@ -24,6 +26,10 @@ Output main(Input input) {
 	output.position = mul(output.position, proj);
 
 	output.texcoord = input.texcoord;
+
+	output.normal = mul(input.normal, (float3x3)world);
+
+	output.normal = normalize(output.normal);
 
 	return output;
 }

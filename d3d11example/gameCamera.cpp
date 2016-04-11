@@ -4,6 +4,9 @@
 
 gameCamera::gameCamera()
 {
+	//m_positionVector = XMFLOAT3(0, 0, -12.f);
+
+
 }
 
 

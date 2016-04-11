@@ -148,8 +148,10 @@
     <ClInclude Include="cBox.h" />
     <ClInclude Include="gameCamera.h" />
     <ClInclude Include="CustomWindow.h" />
+    <ClInclude Include="gameObject.h" />
     <ClInclude Include="GameStatic.h" />
     <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="ImportModel.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelObjects.h" />
     <ClInclude Include="Renderer.h" />
@@ -160,8 +162,10 @@
     <ClCompile Include="cBox.cpp" />
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="gameCamera.cpp" />
+    <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="GameStatic.cpp" />
     <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="ImportModel.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />

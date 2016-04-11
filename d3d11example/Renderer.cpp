@@ -195,7 +195,7 @@ void Renderer::Render()
 
 
 	// Set the background color
-	float clearColor[] = { .25f, .5f, 1, 1 };
+	float clearColor[] = { 178/255.f,235/255.f, 244/255.f, 1 };
 	m_deviceContext->ClearRenderTargetView(m_RenderTartgetView, clearColor);
 
 	m_deviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
